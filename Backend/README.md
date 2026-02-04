@@ -112,3 +112,108 @@ Content-Type: application/json
 - The endpoint returns a JWT token that should be used for subsequent authenticated requests.
 - Email addresses must be unique; attempting to register with an existing email will result in an error.
 
+---
+
+### POST /users/login
+
+#### Description
+Authenticates an existing user in the system. This endpoint accepts user credentials (email and password), validates the input, verifies the credentials against the database, and returns an authentication token along with the user data upon successful authentication.
+
+#### Request Method
+```
+POST /users/login
+```
+
+#### Request Headers
+```
+Content-Type: application/json
+```
+
+#### Request Body
+```json
+{
+  "email": "string (required, must be valid email format)",
+  "password": "string (required, minimum 6 characters)"
+}
+```
+
+#### Request Body Example
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "secure123"
+}
+```
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "token": "jwt_token_string",
+  "user": {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+##### Error Responses
+
+**400 Bad Request** - Validation Error
+```json
+{
+  "error": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be atleast 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+**401 Unauthorized** - Invalid Credentials
+```json
+{
+  "message": "Invalid username or password"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | User successfully authenticated. User object and authentication token returned. |
+| 400 | Validation error. Check the error array for specific validation failures. |
+| 401 | Invalid credentials. Email does not exist or password is incorrect. |
+| 500 | Internal server error. |
+
+#### Validation Rules
+
+| Field | Rules |
+|---|---|
+| `email` | Required, must be a valid email format |
+| `password` | Required, minimum 6 characters |
+
+#### Notes
+- The endpoint compares the provided password with the hashed password stored in the database.
+- The endpoint returns a JWT token that should be used for subsequent authenticated requests.
+- Returns a generic "Invalid username or password" error message for both missing user and incorrect password cases for security reasons.
+
