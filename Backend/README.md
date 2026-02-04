@@ -216,4 +216,143 @@ Content-Type: application/json
 - The endpoint compares the provided password with the hashed password stored in the database.
 - The endpoint returns a JWT token that should be used for subsequent authenticated requests.
 - Returns a generic "Invalid username or password" error message for both missing user and incorrect password cases for security reasons.
+- The authentication token is also set as a cookie in the response for client convenience.
+
+---
+
+### GET /users/profile
+
+#### Description
+Retrieves the profile information of the currently authenticated user. This is a protected endpoint that requires valid authentication.
+
+#### Request Method
+```
+GET /users/profile
+```
+
+#### Request Headers
+```
+Authorization: Bearer <jwt_token>
+```
+or
+```
+Cookie: token=<jwt_token>
+```
+
+#### Request Body
+No request body required.
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+}
+```
+
+##### Error Responses
+
+**401 Unauthorized** - Missing or Invalid Token
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | Profile retrieved successfully. User object returned. |
+| 401 | Authentication failed. Token is missing, invalid, or expired. |
+| 500 | Internal server error. |
+
+#### Authentication
+- **Required**: Yes. This endpoint requires a valid JWT token.
+- **Token Location**: Can be sent via Authorization header (`Bearer <token>`) or as a cookie.
+
+#### Notes
+- This endpoint is protected and can only be accessed by authenticated users.
+- The user information is extracted from the authentication token.
+- No sensitive data like password hashes are returned.
+
+---
+
+### GET /users/logout
+
+#### Description
+Logs out the currently authenticated user by invalidating their authentication token. This is a protected endpoint that requires valid authentication. The token is blacklisted to prevent its reuse.
+
+#### Request Method
+```
+GET /users/logout
+```
+
+#### Request Headers
+```
+Authorization: Bearer <jwt_token>
+```
+or
+```
+Cookie: token=<jwt_token>
+```
+
+#### Request Body
+No request body required.
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "message": "User Logged out"
+}
+```
+
+##### Error Responses
+
+**401 Unauthorized** - Missing or Invalid Token
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | User successfully logged out. Token blacklisted. |
+| 401 | Authentication failed. Token is missing, invalid, or expired. |
+| 500 | Internal server error. |
+
+#### Authentication
+- **Required**: Yes. This endpoint requires a valid JWT token.
+- **Token Location**: Can be sent via Authorization header (`Bearer <token>`) or as a cookie.
+
+#### Notes
+- This endpoint is protected and can only be accessed by authenticated users.
+- The authentication token is cleared from cookies.
+- The token is added to a blacklist to prevent its reuse for future requests.
+- After logout, the client should discard the token and treat the user as unauthenticated.
 

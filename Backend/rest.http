@@ -21,3 +21,15 @@ Content-Type: application/json
     "email": "test@test.com",
     "password": "test_password"
 }
+
+###
+
+GET http://localhost:4000/users/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzAyMjgxMDV9.3WyD-Y0tVJUZfJH2Tr1pi5vQ65k1oOE1ZxAZqeopsks
+
+###
+
+GET http://localhost:4000/users/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzAyMjgxMDV9.3WyD-Y0tVJUZfJH2Tr1pi5vQ65k1oOE1ZxAZqeopsks
