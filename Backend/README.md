@@ -349,6 +349,257 @@ Content-Type: application/json
 
 ---
 
+### POST /captian/login
+
+#### Description
+Authenticates an existing captian (driver). This endpoint accepts captian credentials (email and password), validates input, verifies credentials, sets an authentication cookie, and returns a JWT token along with captian data upon success.
+
+#### Request Method
+```
+POST /captian/login
+```
+
+#### Request Headers
+```
+Content-Type: application/json
+```
+
+#### Request Body
+```json
+{
+  "email": "string (required, must be valid email format)",
+  "password": "string (required, minimum 6 characters)"
+}
+```
+
+#### Request Body Example
+```json
+{
+  "email": "alice.smith@example.com",
+  "password": "driver123"
+}
+```
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "token": "jwt_token_string",
+  "captian": {
+    "_id": "captian_id",
+    "fullname": {
+      "firstname": "Alice",
+      "lastname": "Smith"
+    },
+    "email": "alice.smith@example.com",
+    "vechile": {
+      "color": "red",
+      "plate": "ABC-123",
+      "capacity": 4,
+      "vechileType": "car"
+    }
+  }
+}
+```
+
+##### Error Responses
+
+**400 Bad Request** - Validation Error
+```json
+{
+  "error": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be atleast 6 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+**401 Unauthorized** - Invalid Credentials
+```json
+{
+  "message": "Invalid username or password"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | Captian successfully authenticated. Captian object and authentication token returned. |
+| 400 | Validation error. Check the error array for specific validation failures. |
+| 401 | Invalid credentials. Email does not exist or password is incorrect. |
+| 500 | Internal server error. |
+
+#### Validation Rules
+
+| Field | Rules |
+|---|---|
+| `email` | Required, must be a valid email format |
+| `password` | Required, minimum 6 characters |
+
+#### Notes
+- The authentication token is set as a cookie (`token`) in the response for client convenience.
+- Returns a generic "Invalid username or password" error message for security.
+
+---
+
+### GET /captian/profile
+
+#### Description
+Retrieves the profile information of the currently authenticated captian. This is a protected endpoint that requires valid captian authentication.
+
+#### Request Method
+```
+GET /captian/profile
+```
+
+#### Request Headers
+```
+Authorization: Bearer <jwt_token>
+```
+or
+```
+Cookie: token=<jwt_token>
+```
+
+#### Request Body
+No request body required.
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "_id": "captian_id",
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "vechile": {
+    "color": "red",
+    "plate": "ABC-123",
+    "capacity": 4,
+    "vechileType": "car"
+  }
+}
+```
+
+##### Error Responses
+
+**401 Unauthorized** - Missing or Invalid Token
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | Profile retrieved successfully. Captian object returned. |
+| 401 | Authentication failed. Token is missing, invalid, or expired. |
+| 500 | Internal server error. |
+
+#### Authentication
+- **Required**: Yes. This endpoint requires a valid JWT token.
+- **Token Location**: Can be sent via Authorization header (`Bearer <token>`) or as a cookie.
+
+#### Notes
+- This endpoint is protected and can only be accessed by authenticated captians.
+- No sensitive data like password hashes are returned.
+
+---
+
+### GET /captian/logout
+
+#### Description
+Logs out the currently authenticated captian by invalidating their authentication token. This is a protected endpoint that requires valid captian authentication. The token is blacklisted to prevent its reuse.
+
+#### Request Method
+```
+GET /captian/logout
+```
+
+#### Request Headers
+```
+Authorization: Bearer <jwt_token>
+```
+or
+```
+Cookie: token=<jwt_token>
+```
+
+#### Request Body
+No request body required.
+
+#### Response
+
+##### Success Response (200 OK)
+```json
+{
+  "message": "Captian Logged out"
+}
+```
+
+##### Error Responses
+
+**401 Unauthorized** - Missing or Invalid Token
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 200 | Captian successfully logged out. Token blacklisted. |
+| 401 | Authentication failed. Token is missing, invalid, or expired. |
+| 500 | Internal server error. |
+
+#### Authentication
+- **Required**: Yes. This endpoint requires a valid JWT token.
+- **Token Location**: Can be sent via Authorization header (`Bearer <token>`) or as a cookie.
+
+#### Notes
+- This endpoint is protected and can only be accessed by authenticated captians.
+- The authentication token is cleared from cookies.
+- The token is added to a blacklist to prevent its reuse for future requests.
+- After logout, the client should discard the token and treat the captian as unauthenticated.
+
 ### GET /users/profile
 
 #### Description

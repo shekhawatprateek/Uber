@@ -53,3 +53,25 @@ Content-Type: application/json
         "vechileType": "motorcycle"
     }
 }
+
+###
+
+POST http://localhost:4000/captian/login
+Content-Type: application/json
+
+{
+    "email": "test_capt@tsaddsa.com",
+    "password": "test_captian"
+}
+
+###
+
+GET http://localhost:4000/captian/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTg0NmE3MTM1ZjYxZDFkYzNlYzA0ZGQiLCJpYXQiOjE3NzAyODg5ODksImV4cCI6MTc3MDM3NTM4OX0.e89nAy6g7rOuBsejC13eod_LfoZoSXjOXJEc-uKXUfI
+
+###
+
+GET http://localhost:4000/captian/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTg0NmE3MTM1ZjYxZDFkYzNlYzA0ZGQiLCJpYXQiOjE3NzAyODg5ODksImV4cCI6MTc3MDM3NTM4OX0.e89nAy6g7rOuBsejC13eod_LfoZoSXjOXJEc-uKXUfI
