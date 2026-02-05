@@ -220,6 +220,135 @@ Content-Type: application/json
 
 ---
 
+## Captian Endpoints 🚗
+
+### POST /captian/register
+
+#### Description
+Registers a new captian (driver) in the system. This endpoint accepts personal details and vehicle information, validates the input, creates a new captian in the database, and returns the created captian object.
+
+#### Request Method
+```
+POST /captian/register
+```
+
+#### Request Headers
+```
+Content-Type: application/json
+```
+
+#### Request Body
+```json
+{
+  "fullname": {
+    "firstname": "string (required, minimum 3 characters)",
+    "lastname": "string (required, minimum 3 characters)"
+  },
+  "email": "string (required, must be valid email format)",
+  "password": "string (required, minimum 3 characters)",
+  "vechile": {
+    "color": "string (required, minimum 3 characters)",
+    "plate": "string (required, minimum 3 characters)",
+    "capacity": "number (required, minimum 1)",
+    "vechileType": "string (required, one of: 'car', 'motorcycle', 'auto')"
+  }
+}
+```
+
+#### Request Body Example
+```json
+{
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "password": "driver123",
+  "vechile": {
+    "color": "red",
+    "plate": "ABC-123",
+    "capacity": 4,
+    "vechileType": "car"
+  }
+}
+```
+
+#### Response
+
+##### Success Response (201 Created)
+```json
+{
+  "_id": "captian_id",
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "vechile": {
+    "color": "red",
+    "plate": "ABC-123",
+    "capacity": 4,
+    "vechileType": "car"
+  }
+}
+```
+
+##### Error Responses
+
+**400 Bad Request** - Validation Error
+```json
+{
+  "error": [
+    {
+      "msg": "invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "First name must be atleast 3 characters long",
+      "param": "fullname.firstname",
+      "location": "body"
+    }
+  ]
+}
+```
+
+**500 Internal Server Error** - Server Error
+```json
+{
+  "error": "Server error message"
+}
+```
+
+#### Status Codes
+
+| Status Code | Description |
+|---|---|
+| 201 | Captian successfully registered. Captian object returned. |
+| 400 | Validation error. Check the error array for specific validation failures. |
+| 500 | Internal server error. |
+
+#### Validation Rules
+
+| Field | Rules |
+|---|---|
+| `fullname.firstname` | Required, minimum 3 characters |
+| `fullname.lastname` | Required, minimum 3 characters |
+| `email` | Required, must be a valid email format |
+| `password` | Required, minimum 3 characters |
+| `vechile.color` | Required, minimum 3 characters |
+| `vechile.plate` | Required, minimum 3 characters |
+| `vechile.capacity` | Required, numeric, minimum 1 |
+| `vechile.vechileType` | Required, one of: `car`, `motorcycle`, `auto` |
+
+#### Notes
+- Vehicle type (`vechile.vechileType`) must be one of `car`, `motorcycle`, or `auto`.
+- Passwords should be stored securely (hashed) by the server before saving to the database.
+- Ensure vehicle `capacity` is provided as a number.
+- Validation messages come from the route validators defined in `routes/captian.routes.js`.
+
+---
+
 ### GET /users/profile
 
 #### Description

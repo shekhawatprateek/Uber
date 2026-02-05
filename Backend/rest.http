@@ -33,3 +33,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkN
 GET http://localhost:4000/users/logout
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzAyMjgxMDV9.3WyD-Y0tVJUZfJH2Tr1pi5vQ65k1oOE1ZxAZqeopsks
+
+###
+
+POST http://localhost:4000/captian/register
+Content-Type: application/json
+
+{
+    "fullname": {
+        "firstname": "test_captian_firstname",
+        "lastname": "test_captian_lastname"
+    },
+    "email": "test_capt@tsaddsa.com",
+    "password": "test_captian",
+    "vechile": {
+        "color": "red",
+        "plate": "HR 26 FS 8155",
+        "capacity": 2,
+        "vechileType": "motorcycle"
+    }
+}
