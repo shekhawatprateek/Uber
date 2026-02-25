@@ -16,7 +16,7 @@ app.use(express.urlencoded())
 app.use(cookieParser())
 
 app.use('/users', userRoutes)
-app.use('/captian', captianRoutes)
+app.use('/captain', captianRoutes)
 
 
 app.get('/',(req, res) => {

@@ -1,23 +1,41 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
 
 const UserSignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
 
-  function submitHandler(e) {
+  const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserDataContext);
+
+  async function submitHandler(e) {
     e.preventDefault();
-    setUserData({
+    const newUser = {
       email: email,
       password: password,
-      fullName: {
-        firstName,
-        lastName,
+      fullname: {
+        firstname,
+        lastname,
       },
-    });
+    };
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/users/register`,
+      newUser,
+    );
+
+    if (response.status === 201) {
+      const data = response.data;
+      
+      setUser(data.user);
+      navigate("/home");
+    }
+
     setEmail("");
     setPassword("");
     setFirstName("");
@@ -41,7 +59,7 @@ const UserSignUp = () => {
               required
               type="text"
               placeholder="First Name"
-              value={firstName}
+              value={firstname}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <input
@@ -49,7 +67,7 @@ const UserSignUp = () => {
               required
               type="text"
               placeholder="Last Name"
-              value={lastName}
+              value={lastname}
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
@@ -73,7 +91,7 @@ const UserSignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="bg-[#111] text-white font-semibold rounded px-4 py-2 mb-3 w-full text-lg">
-            Login
+            Create Account
           </button>
         </form>
         <p className="text-center">
@@ -85,8 +103,9 @@ const UserSignUp = () => {
       </div>
       <div>
         <p className="text-[10px] leading-tight text-gray-500">
-          This site is protected by reCAPTCHA and the <span className="underline bold">Google
-Policy</span> and Terms of Service apply.
+          This site is protected by reCAPTCHA and the{" "}
+          <span className="underline bold">Google Policy</span> and Terms of
+          Service apply.
         </p>
       </div>
     </div>
