@@ -75,3 +75,37 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTg0NmE3M
 GET http://localhost:4000/captian/logout
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTg0NmE3MTM1ZjYxZDFkYzNlYzA0ZGQiLCJpYXQiOjE3NzAyODg5ODksImV4cCI6MTc3MDM3NTM4OX0.e89nAy6g7rOuBsejC13eod_LfoZoSXjOXJEc-uKXUfI
+
+###
+
+GET http://localhost:4000/maps/get-coordinates?address=Udaipur
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzIyNTc3MjYsImV4cCI6MTc3MjM0NDEyNn0.asdyNX6KgBx5hv2K2E6sFqyCgtkgBruf55mZJrmHhvY
+
+
+###
+
+GET http://localhost:4000/maps/get-distance-time?origin=Udaipur&destination=gurgaon
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzIyNTc3MjYsImV4cCI6MTc3MjM0NDEyNn0.asdyNX6KgBx5hv2K2E6sFqyCgtkgBruf55mZJrmHhvY
+
+
+###
+
+GET http://localhost:4000/maps/get-suggestions?input=gurug
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTdlNDdkNDdiYzJjYWJiNzNjNDU4YWIiLCJpYXQiOjE3NzIyNTc3MjYsImV4cCI6MTc3MjM0NDEyNn0.asdyNX6KgBx5hv2K2E6sFqyCgtkgBruf55mZJrmHhvY
+
+
+###
+
+POST http://localhost:4000/rides/create
+Content-Type: application/json
+Authorization:
+
+{
+    "pickup": "Gurgaon",
+    "destination": "IMT Manesar",
+    "vehicleType": "car"
+}
+

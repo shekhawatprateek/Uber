@@ -1,11 +1,11 @@
 import React from "react";
 
-const WaitingForDriver = ({setWaitingForDriver}) => {
+const WaitingForDriver = ({ setWaitingForDriver }) => {
   return (
     <div>
       <h5
         onClick={() => {
-            setWaitingForDriver(false);
+          setWaitingForDriver(false);
         }}
         className="w-[94%] p-3 text-center absolute top-0"
       >
@@ -54,8 +54,6 @@ const WaitingForDriver = ({setWaitingForDriver}) => {
               </p>
             </div>
           </div>
-          <div></div>
-          <div></div>
         </div>
       </div>
     </div>

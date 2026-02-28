@@ -1,4 +1,3 @@
-import React from "react";
 
 const ConfirmRide = ({ setConfirmRidePanel, setVehicleFound }) => {
   return (
@@ -46,10 +45,14 @@ const ConfirmRide = ({ setConfirmRidePanel, setVehicleFound }) => {
               </p>
             </div>
           </div>
-          <div></div>
-          <div></div>
         </div>
-        <button onClick={() => {setVehicleFound(true); setConfirmRidePanel(false)}} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+        <button
+          onClick={() => {
+            setVehicleFound(true);
+            setConfirmRidePanel(false);
+          }}
+          className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
+        >
           Confirm
         </button>
       </div>

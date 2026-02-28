@@ -46,8 +46,7 @@ const LookingForDriver = ({ setVehicleFound }) => {
               </p>
             </div>
           </div>
-          <div></div>
-          <div></div>
+         
         </div>
       </div>
     </div>
